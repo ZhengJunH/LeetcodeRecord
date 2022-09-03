@@ -1,0 +1,22 @@
+var maxSlidingWindow = function(nums, k) {
+    const queue = [],
+          result = []
+    for (let i = 0; i < nums.length; i++) {
+        // 如果队列不为空，且要入队的元素大于队尾元素, 队尾元素出队
+        while (queue.length > 0 && nums[i] > nums[queue[queue.length - 1]]) {
+            queue.pop()
+        }
+        queue.push(i)
+
+        // j 是把 i 为作为滑动窗口最后一个值时滑动窗口第一个值的索引
+        const j = i - k + 1
+        // j >= 0 说明滑动窗口已构建完毕
+        if (j >= 0) {
+            // 当队首元素不属于当前滑动窗口时出队
+            if (queue[0] < j) queue.shift()
+            // 把队首元素添加到结果数组中
+            result.push(nums[queue[0]])
+        }
+    }
+    return result
+};
